@@ -75,7 +75,11 @@ let map = new InteractiveMap({
     // Give it a random number of points
     // landmark.points = Math.floor(Math.random() * 10 + 1);
     // parseInt(landmark.distanceToPlayer / 120) + 1;
-    landmark.points = 1;
+    if (landmark.distanceToPlayer) {
+      landmark.points = parseInt(landmark.distanceToPlayer / 120) + 1;
+    } else {
+      landmark.points = 1;
+    }
     landmark.idNumber = landmarkCount++;
     landmark.color = [Math.random(), 1, 0.5];
 
