@@ -1,7 +1,5 @@
-
-
 const userWidget = {
-	template: `<div class="panel">
+  template: `<div class="panel">
 		<table>
 			<tr>
 				<td>uid</td>
@@ -14,23 +12,18 @@ const userWidget = {
 		</table>	
 	</div>
 	`,
-	methods: {
-		
-	},
-	props: {
-		user: {}
-	}
-}
-
-
-
+  methods: {},
+  props: {
+    user: {},
+  },
+};
 
 // Widget look at location data
 const locationWidget = {
-	template: `
+  template: `
 	<div class="widget widget-location">
 		<div class="controls">
-			<button @click="map.useLocation = !map.useLocation">use real location</button>
+			<button @click="useLiveLocation()">use real location</button>
 			<button @click="map.automove = !map.automove">automove</button>
 
 		</div>
@@ -50,57 +43,56 @@ const locationWidget = {
 
 	</div>`,
 
-	methods: {
-		
-	},
+  methods: {
+    useLiveLocation: function () {
+      map.useLocation = !map.useLocation;
+      setTimeout(() => {
+        map.landmarks.forEach((landmark) =>
+          map.initializeLandmark(landmark, false)
+        );
+      }, 100);
+    },
+  },
 
-	watch: {
-		"location.pos": function() {
-			// console.log("Location changed")
-			// console.log(this.map)
-			// console.log("set center", this.location.pos)
-			// let center = this.location.pos.slice(0,2)
-			// // center = ol.proj.fromLonLat(this.location.pos[1], this.location.pos[0], 'EPSG:4326', 'EPSG:3857')
+  watch: {
+    "location.pos": function () {
+      // console.log("Location changed")
+      // console.log(this.map)
+      // console.log("set center", this.location.pos)
+      // let center = this.location.pos.slice(0,2)
+      // // center = ol.proj.fromLonLat(this.location.pos[1], this.location.pos[0], 'EPSG:4326', 'EPSG:3857')
+      // // center = ol.proj.transform([77.216574, 28.627671])
+      // console.log(center)
+      // // center = new ol.LonLat(center[1], center[0]).transform('EPSG:4326', 'EPSG:3857')
+      // this.map.getView().setCenter(ol.proj.fromLonLat(center));
+      // this.map.getView().setZoom(15)
+    },
+  },
 
-			// // center = ol.proj.transform([77.216574, 28.627671])
-			// console.log(center)
-			// // center = new ol.LonLat(center[1], center[0]).transform('EPSG:4326', 'EPSG:3857')
-			// this.map.getView().setCenter(ol.proj.fromLonLat(center));
-			// this.map.getView().setZoom(15)
+  mounted() {
+    map.renderMap("map", this.$refs.popup);
 
-		}
-	},
+    // setInterval(() => {
+    // 	console.log("Create new")
+    // 	console.log(NU_CENTER)
+    // 	let p = NU_CENTER.clonePolarOffset(100, Math.random())
+    // 	console.log(p)
+    // 	var marker = new ol.Feature({
+    // 		name: "TEST",
+    // 		geometry: new ol.geom.Point(p)
+    // 	});
 
-	mounted() {
-		map.renderMap("map", this.$refs.popup)
-		
-		// setInterval(() => {
-		// 	console.log("Create new")
-		// 	console.log(NU_CENTER)
-		// 	let p = NU_CENTER.clonePolarOffset(100, Math.random())
-		// 	console.log(p)
-		// 	var marker = new ol.Feature({
-		// 		name: "TEST",
-		// 		geometry: new ol.geom.Point(p)
-		// 	});
+    // 	markers.getSource().addFeature(marker);
 
-		// 	markers.getSource().addFeature(marker);
+    // }, 1000)
+  },
 
-		// }, 1000) 
-
-		
-	},
-
-	
-	props: ["map"],
-
-}
-
-
+  props: ["map"],
+};
 
 // Widget to track the connections to peers and the peer server
 const roomWidget = {
-	template: `
+  template: `
 	<div class="widget widget-peer">
 	<table>
 
@@ -130,16 +122,12 @@ const roomWidget = {
 
 	</div>`,
 
-	methods: {
-		getStatus(conn) {
-			if (conn._open)
-				return "open"
-			if (conn.closedOn)
-				return "closed"
-			return "---"
-		}
-		
-	},
-	props: ["room"],
-
-}
+  methods: {
+    getStatus(conn) {
+      if (conn._open) return "open";
+      if (conn.closedOn) return "closed";
+      return "---";
+    },
+  },
+  props: ["room"],
+};
