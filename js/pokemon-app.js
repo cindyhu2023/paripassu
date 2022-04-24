@@ -26,7 +26,7 @@ let map = new InteractiveMap({
   mapCenter: NU_CENTER,
 
   // Ranges
-  ranges: [500, 200, 90, 1], // must be in reverse order
+  ranges: [500, 200, 90, 10], // must be in reverse order
 
   initializeMap() {
     // A good place to load landmarks
@@ -72,11 +72,13 @@ let map = new InteractiveMap({
 
     // *You* decide how to create a marker
     // These aren't used, but could be examples
+    // Give it a random number of points
+    // landmark.points = Math.floor(Math.random() * 10 + 1);
+    // parseInt(landmark.distanceToPlayer / 120) + 1;
+    landmark.points = 1;
     landmark.idNumber = landmarkCount++;
     landmark.color = [Math.random(), 1, 0.5];
 
-    // Give it a random number of points
-    landmark.points = Math.floor(Math.random() * 10 + 1);
     return landmark;
   },
 
@@ -85,7 +87,7 @@ let map = new InteractiveMap({
     // -1 is not in any range
 
     console.log("enter", landmark.name, newLevel);
-    if (newLevel == 2) {
+    if (newLevel == 3) {
       // Add points to my gamestate
       gameState.points += landmark.points;
 
@@ -96,6 +98,7 @@ let map = new InteractiveMap({
         gameState.messages.push(
           `You captured ${landmark.name} for ${landmark.points} points`
         );
+        landmark.points = 0;
       }
     }
   },
@@ -143,8 +146,10 @@ window.onload = (event) => {
 			<div id="main-columns">
 
 				<div class="main-column" style="flex:1;overflow:scroll;max-height:200px">
-					(TODO, add your own gamestate)
-					{{gameState}}
+        <h2>Walk (or run!) around to collect as many points as you can in 30 minutes!</h2>
+        <h4>press "use real location" to start</h4>
+          <h2>Points: {{gameState.points}}</h2>
+					{{gameState.messages[gameState.messages.length-1]}}
 					
 				</div>
 

@@ -24,7 +24,3 @@ Things you can modify:
   - initializeLandmark: add data to every landmark in your game. Are coffee shops worth 10 points?
   - onEnterRange, onExitRange: what to do if the player enters or exits the region around a landmark. Different levels mean you can give different points for proximity
   - featureToStyle: How a landmark is displayed
-
-Yvan's notes
-
-- I want to make a simple game that also serves as a self-guided tour of Northwestern and Evanston, mirroring how a Northwestern propsie would do on their visit.
